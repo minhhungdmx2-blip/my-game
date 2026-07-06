@@ -202,6 +202,8 @@
 
         <audio src="sef/machine.mp3" id = "machine"></audio>
         <audio src="sef/click.mp3" id = "click"></audio>
+        <audio src ="sef/plus.mp3" id = "plus"></audio>
+        <audio src="sef/minus.mp3" id = "minus"></audio>
         <script>
             //generrate machinez
             let box1 = document.createElement("div");
@@ -460,6 +462,7 @@
             function money_ef(mon, mon1)
             {
                 if(mon > mon1){
+                    document.getElementById("plus").play()
                     document.getElementById("money").style.color = "green"
                     document.getElementById("money_box").style.border = "15px solid green"
                     setTimeout(function(){
@@ -468,6 +471,7 @@
                     },300)
                 }
                 if(mon < mon1){
+                    document.getElementById("minus").play()
                     document.getElementById("money").style.color = "red"
                     document.getElementById("money_box").style.border = "15px solid red"
                     setTimeout(function(){
