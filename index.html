@@ -197,14 +197,15 @@
         </button>
 
         <div id = "bet_box">
-            <h1 class = "bet" id = "bet1"></h1>
+            <h1 class = "bet" id = "bet"></h1>
         </div>
 
         <audio src="sef/machine.mp3" id = "machine"></audio>
         <audio src="sef/click.mp3" id = "click"></audio>
         <audio src ="sef/plus.mp3" id = "plus"></audio>
         <audio src="sef/minus.mp3" id = "minus"></audio>
-        <script>
+        <audio src="sef/tick.mp3" id = "tick"></audio>
+        <script >
             //generrate machinez
             let box1 = document.createElement("div");
             let box2 = document.createElement("div");
@@ -254,7 +255,7 @@
             mon = 100
             bet = 0
             document.getElementById("money").textContent = "💵 " + mon + "$"
-            document.getElementById("bet1").textContent = bet + "$"
+            document.getElementById("bet").textContent = bet + "$"
 
             //roll
             let but = document.getElementById("button");
@@ -337,8 +338,9 @@
                     return
                 }
                 bool = true
+                let bet1 = bet
                 let mon1 = mon
-                mon -= bet
+                mon -= bet1
                 document.getElementById("money").textContent = "💵 " + mon + "$"
                 document.getElementById('click').play()
                 let a1 = Math.floor(Math.random() * 9)
@@ -408,18 +410,18 @@
                     document.getElementById('machine').play()
                     bool = false
                     set_luck(a1, b1, c1)
-                    mon += parseInt(bet * luck)
-                    luck = 0
                     clearInterval(id2)
                     setTimeout(() => {
-                        money_ef(mon, mon1)
-                        document.getElementById("money").textContent = "💵 " + parseInt(mon) + "$"
-                    },1000);
+                        mon += parseInt(bet1 * luck)
+                        luck = 0
                         if(bet > mon)
                         {
                             bet = 0
-                            document.getElementById("bet1").textContent = bet + "$"
+                            document.getElementById("bet").textContent = bet + "$"
                         }
+                        money_ef(mon, mon1)
+                        document.getElementById("money").textContent = "💵 " + parseInt(mon) + "$"
+                    },1000);
                 },6000)
             }
 
@@ -428,34 +430,39 @@
             {
                 if(bet  + 10 <= mon)
                 {
+                    document.getElementById("tick").play()
                     bet += 10
-                    document.getElementById("bet1").textContent = bet + "$"
+                    document.getElementById("bet").textContent = bet + "$"
                     return
                 }
                 if(bet < mon)
                 {
+                    document.getElementById("tick").play()
                     bet = mon
-                    document.getElementById("bet1").textContent = bet + "$"
+                    document.getElementById("bet").textContent = bet + "$"
                 }
             }
             function minus()
             {
                 if(bet - 10 >= 0)
                 {
+                    document.getElementById("tick").play()
                     bet -= 10
-                    document.getElementById("bet1").textContent = bet + "$"
+                    document.getElementById("bet").textContent = bet + "$"
                     return
                 }
                 if(bet > 0)
                 {
+                    document.getElementById("tick").play()
                     bet = 0
-                    document.getElementById("bet1").textContent = bet + "$"
+                    document.getElementById("bet").textContent = bet + "$"
                 }
             }
             function allin()
             {
+                document.getElementById("tick").play()
                 bet = mon
-                document.getElementById("bet1").textContent = bet + "$"
+                document.getElementById("bet").textContent = bet + "$"
             }
 
             //effect
