@@ -121,6 +121,7 @@
             font-weight:bolder;
             background: linear-gradient(red, gold);
             background-clip: text;
+            transition: top 10ms linear;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -252,6 +253,7 @@
             bet = 0
             document.getElementById("money").textContent = "💵 " + mon + "$"
             document.getElementById("bet1").textContent = bet + "$"
+
             //roll
             let but = document.getElementById("button");
             let luck = 1;
@@ -266,31 +268,31 @@
                 let luck1 = 0
                 if(a == c)
                 {
-                    luck1 += 0.2
+                    luck1 += 0.3
                 }
                 if((a % 3 == 0 && b % 3 == 0) ||
                     (c % 3 == 0 && b % 3 == 0)||
                         (a % 3 == 0 && c % 3 == 0))
                 {
-                    luck1 += 0.3
+                    luck1 += 0.4
                 }
                 if((a % 2 == 0 && b % 2 == 0) ||
                     (c % 2 == 0 && b % 2 == 0)||
                         (a % 2 == 0 && c % 2 == 0))
                 {
-                    luck1 += 0.3
+                    luck1 += 0.5
                 }
                 if(a == b - 1 || b == c - 1)
                 {
-                    luck1 += 0.4
+                    luck1 += 0.6
                 }
                 if(a == b + 1 || b == c + 1)
                 {
-                    luck1 += 0.4
+                    luck1 += 0.6
                 }
                 if( a % 2 == 0 && b % 2 == 0 && c % 2 == 0)
                 {
-                    luck1 += 0.5
+                    luck1 += 0.6
                 }
                 if(a == b || b == c)
                 {
@@ -333,12 +335,14 @@
                     return
                 }
                 bool = true
+                let mon1 = mon
                 mon -= bet
                 document.getElementById("money").textContent = "💵 " + mon + "$"
                 document.getElementById('click').play()
                 let a1 = Math.floor(Math.random() * 9)
                 let b1 = Math.floor(Math.random() * 9)
                 let c1 = Math.floor(Math.random() * 9)
+                let to
                 let id = setInterval(function(){
                     if(a1 >= 9)
                     {
@@ -346,10 +350,17 @@
                     }
                     a1++
                     num1.textContent = a1
+                    num1.style.top = "30px"
+                    to = setTimeout(() =>{
+                        num1.style.top = "70px"
+                    },25)
                 }, 50)
                 setTimeout(function(){
-                    document.getElementById('machine').play()
                     clearInterval(id)
+                    clearTimeout(to)
+                    num1.style.top = "50px"
+                    num1.textContent = a1
+                    document.getElementById('machine').play()
                 },2000)
 
                 let id1 = setInterval(function(){
@@ -359,10 +370,17 @@
                     }
                     b1++
                     num2.textContent = b1
+                    num2.style.top = "30px"
+                    to = setTimeout(() =>{
+                        num2.style.top = "70px"
+                    },25)
                 }, 50)
                 setTimeout(function(){
-                    document.getElementById('machine').play()
                     clearInterval(id1)
+                    clearTimeout(to)
+                    num2.style.top = "50px"
+                    num2.textContent = b1
+                    document.getElementById('machine').play()
                 },4000)
 
                 let id2 = setInterval(function(){
@@ -372,7 +390,18 @@
                     }
                     c1++
                     num3.textContent = c1
+                    num3.style.top = "30px"
+                    to = setTimeout(() =>{
+                        num3.style.top = "70px"
+                    },25)
                 }, 50)
+                setTimeout(function(){
+                    clearInterval(id2)
+                    clearTimeout(to)
+                    num3.style.top = "50px"
+                    num3.textContent = c1
+                    document.getElementById('machine').play()
+                },6000)
                 setTimeout(function(){
                     document.getElementById('machine').play()
                     bool = false
@@ -381,6 +410,7 @@
                     luck = 0
                     clearInterval(id2)
                     setTimeout(() => {
+                        money_ef(mon, mon1)
                         document.getElementById("money").textContent = "💵 " + parseInt(mon) + "$"
                     },1000);
                         if(bet > mon)
@@ -394,17 +424,29 @@
             //change
             function plus()
             {
-                if(bet < mon)
+                if(bet  + 10 <= mon)
                 {
                     bet += 10
+                    document.getElementById("bet1").textContent = bet + "$"
+                    return
+                }
+                if(bet < mon)
+                {
+                    bet = mon
                     document.getElementById("bet1").textContent = bet + "$"
                 }
             }
             function minus()
             {
-                if(bet > 0)
+                if(bet - 10 >= 0)
                 {
                     bet -= 10
+                    document.getElementById("bet1").textContent = bet + "$"
+                    return
+                }
+                if(bet > 0)
+                {
+                    bet = 0
                     document.getElementById("bet1").textContent = bet + "$"
                 }
             }
@@ -412,7 +454,28 @@
             {
                 bet = mon
                 document.getElementById("bet1").textContent = bet + "$"
-            }   
+            }
+
+            //effect
+            function money_ef(mon, mon1)
+            {
+                if(mon > mon1){
+                    document.getElementById("money").style.color = "green"
+                    document.getElementById("money_box").style.border = "15px solid green"
+                    setTimeout(function(){
+                        document.getElementById("money").style.color = "white"
+                        document.getElementById("money_box").style.border = "15px solid white"
+                    },300)
+                }
+                if(mon < mon1){
+                    document.getElementById("money").style.color = "red"
+                    document.getElementById("money_box").style.border = "15px solid red"
+                    setTimeout(function(){
+                        document.getElementById("money").style.color = "white"
+                        document.getElementById("money_box").style.border = "15px solid white"
+                    },300)
+                }
+            }
 
         </script>
     </body>
